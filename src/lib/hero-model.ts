@@ -74,6 +74,7 @@ export function buildHeroModel(i: Input): HeroModel {
           baselineL100,
           prices: quotaConfig.prices,
           co2PerLitreKg: quotaConfig.co2PerLitreKg,
+          driverType: vehicle.driverType,
         })
       : null;
 

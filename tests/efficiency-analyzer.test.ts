@@ -34,11 +34,20 @@ describe("analyzeEfficiency — the third pillar (CONTEXT.md Efficiency Read)", 
   });
 
   it("offers likely causes from the bounded menu when over the baseline", () => {
-    const r = analyzeEfficiency({ fillPair: pair, baselineL100: 6.4, prices, co2PerLitreKg: CO2 });
+    const r = analyzeEfficiency({ fillPair: pair, baselineL100: 6.4, prices, co2PerLitreKg: CO2, driverType: "private" });
     expect(r.causeCandidates.length).toBeGreaterThan(0);
     // every candidate is from the fixed menu — never a free-styled cause (ADR-0002)
     const MENU = ["tyre pressure", "hard acceleration", "idling", "AC load", "short trips", "cargo"];
     for (const c of r.causeCandidates) expect(MENU).toContain(c);
+  });
+
+  it("personalises the causes by driver — a city e-hailing driver differs from a commuter", () => {
+    // short city trips (private) vs long stop-go days (e-hailing) → different culprits
+    const cityCommuter: [Fill, Fill] = [fill({ odometerKm: 0 }), fill({ litres: 12, ringgit: 23.88, odometerKm: 150 })]; // 8.0, short gap
+    const longDays: [Fill, Fill] = [fill({ odometerKm: 0 }), fill({ litres: 40, ringgit: 79.6, odometerKm: 500 })]; // 8.0, long gap
+    const a = analyzeEfficiency({ fillPair: cityCommuter, baselineL100: 6.4, prices, co2PerLitreKg: CO2, driverType: "private" });
+    const r = analyzeEfficiency({ fillPair: longDays, baselineL100: 6.4, prices, co2PerLitreKg: CO2, driverType: "ehailing" });
+    expect(a.causeCandidates).not.toEqual(r.causeCandidates);
   });
 
   it("flags no waste and no causes when at or below the baseline", () => {
@@ -46,7 +55,7 @@ describe("analyzeEfficiency — the third pillar (CONTEXT.md Efficiency Read)", 
       fill({ odometerKm: 0 }),
       fill({ litres: 10, ringgit: 19.9, odometerKm: 200, grade: "RON95" }), // 5.0 L/100km
     ];
-    const r = analyzeEfficiency({ fillPair: efficient, baselineL100: 6.4, prices, co2PerLitreKg: CO2 });
+    const r = analyzeEfficiency({ fillPair: efficient, baselineL100: 6.4, prices, co2PerLitreKg: CO2, driverType: "private" });
     expect(r.wastedRinggit).toBe(0);
     expect(r.wastedCo2Kg).toBe(0);
     expect(r.causeCandidates).toEqual([]);
