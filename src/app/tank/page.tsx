@@ -1,6 +1,7 @@
 import { getDemoHeroModel, getDemoFills, toPersona } from "@/lib/demo-model";
 import { AppShell } from "@/components/AppShell";
 import { EfficiencyRead } from "@/components/EfficiencyRead";
+import { DrivingStyle } from "@/components/DrivingStyle";
 import { EcoTips } from "@/components/EcoTips";
 import { FillHistory } from "@/components/FillHistory";
 import { LogFill } from "@/components/LogFill";
@@ -17,6 +18,7 @@ export default async function TankPage({ searchParams }: { searchParams: Promise
       {model.efficiency ? (
         <>
           <EfficiencyRead result={model.efficiency} baselineL100={model.baselineL100} />
+          <DrivingStyle current={model.drivingStyle} live={persona === "aisyah"} />
           <EcoTips causes={model.efficiency.causeCandidates} />
         </>
       ) : (

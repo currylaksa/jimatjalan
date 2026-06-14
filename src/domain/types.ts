@@ -2,6 +2,7 @@
 
 export type FuelGrade = "RON95" | "RON97" | "diesel";
 export type DriverType = "private" | "ehailing" | "gig";
+export type DrivingStyle = "smooth" | "normal" | "aggressive";
 
 export interface Prices {
   /** Subsidised BUDI95 RON95 price, RM/L. Seed/config, not a constant. */

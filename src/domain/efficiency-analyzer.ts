@@ -3,7 +3,7 @@
 // plus likely causes chosen from a BOUNDED menu — never an LLM-freestyled cause
 // (ADR-0002). Pure; all state passed in.
 
-import type { Fill, Prices, DriverType } from "./types";
+import type { Fill, Prices, DriverType, DrivingStyle } from "./types";
 
 interface Input {
   /** [earlier fill, later fill] — both with odometer readings. */
@@ -14,6 +14,8 @@ interface Input {
   co2PerLitreKg: number;
   /** Personalises the likely causes; defaults to a private driver. */
   driverType?: DriverType;
+  /** Self-reported driving style — sharpens the likely causes (module 3). */
+  drivingStyle?: DrivingStyle;
 }
 
 export interface EfficiencyResult {
@@ -34,7 +36,7 @@ const round = (n: number) => Math.round(n * 100) / 100;
 // Rank the bounded menu by honest, coarse signals (driver type + trip length +
 // how far over baseline) so the likely causes — and the eco-tips — differ per
 // driver. Still "likely culprits", never an asserted measurement (ADR-0002).
-function selectCauses(deviationPct: number, gapKm: number, driverType: DriverType): string[] {
+function selectCauses(deviationPct: number, gapKm: number, driverType: DriverType, style: DrivingStyle): string[] {
   const s: Record<string, number> = {
     "tyre pressure": 1, "hard acceleration": 0, idling: 0, "AC load": 1, "short trips": 0, cargo: 0,
   };
@@ -47,6 +49,10 @@ function selectCauses(deviationPct: number, gapKm: number, driverType: DriverTyp
 
   if (deviationPct > 18) s["hard acceleration"] += 2;
   if (deviationPct > 30) { s.cargo += 1; s["AC load"] += 1; }
+
+  // Self-reported driving style nudges the prime suspects (module 3).
+  if (style === "aggressive") { s["hard acceleration"] += 3; s.idling += 1; }
+  else if (style === "smooth") { s["hard acceleration"] -= 2; s.idling -= 1; s["tyre pressure"] += 1; }
 
   const count = deviationPct > 15 ? 3 : 2;
   return [...CAUSE_MENU]
@@ -72,6 +78,8 @@ export function analyzeEfficiency(i: Input): EfficiencyResult {
     deviationPct: round(deviationPct),
     wastedRinggit: round(wastedLitres * pricePaidPerLitre),
     wastedCo2Kg: round(wastedLitres * i.co2PerLitreKg),
-    causeCandidates: overTolerance ? selectCauses(deviationPct, gapKm, i.driverType ?? "private") : [],
+    causeCandidates: overTolerance
+      ? selectCauses(deviationPct, gapKm, i.driverType ?? "private", i.drivingStyle ?? "normal")
+      : [],
   };
 }

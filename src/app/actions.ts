@@ -6,7 +6,7 @@
 import { revalidatePath } from "next/cache";
 import { seedVehicle } from "@/data/seed";
 import { readSession, writeSession } from "@/lib/session";
-import type { FuelGrade } from "@/domain/types";
+import type { FuelGrade, DrivingStyle } from "@/domain/types";
 
 const GRADES: FuelGrade[] = ["RON95", "RON97", "diesel"];
 
@@ -46,6 +46,16 @@ export async function logFill(input: {
     odometerKm,
     at: new Date().toISOString(),
   });
+  await writeSession(s);
+  refreshHero();
+  return { ok: true };
+}
+
+/** Module 3 — self-reported driving style; sharpens the likely causes + tips. */
+export async function setDrivingStyle(style: DrivingStyle): Promise<ActionResult> {
+  if (!["smooth", "normal", "aggressive"].includes(style)) return { ok: false, error: "Unknown style." };
+  const s = await readSession();
+  s.drivingStyle = style;
   await writeSession(s);
   refreshHero();
   return { ok: true };

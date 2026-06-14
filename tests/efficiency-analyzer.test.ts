@@ -50,6 +50,15 @@ describe("analyzeEfficiency — the third pillar (CONTEXT.md Efficiency Read)", 
     expect(a.causeCandidates).not.toEqual(r.causeCandidates);
   });
 
+  it("self-reported driving style shifts the likely causes (module 3)", () => {
+    const p: [Fill, Fill] = [fill({ odometerKm: 0 }), fill({ litres: 12, ringgit: 23.88, odometerKm: 150 })]; // 8.0, +25%
+    const base = { fillPair: p, baselineL100: 6.4, prices, co2PerLitreKg: CO2, driverType: "private" as const };
+    const aggressive = analyzeEfficiency({ ...base, drivingStyle: "aggressive" });
+    const smooth = analyzeEfficiency({ ...base, drivingStyle: "smooth" });
+    expect(aggressive.causeCandidates).toContain("hard acceleration");
+    expect(aggressive.causeCandidates).not.toEqual(smooth.causeCandidates);
+  });
+
   it("flags no waste and no causes when at or below the baseline", () => {
     const efficient: [Fill, Fill] = [
       fill({ odometerKm: 0 }),

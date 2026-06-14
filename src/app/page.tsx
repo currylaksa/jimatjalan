@@ -5,6 +5,7 @@ import { SubsidyWallet } from "@/components/SubsidyWallet";
 import { CorrectBalance } from "@/components/CorrectBalance";
 import { DashboardTiles } from "@/components/DashboardTiles";
 import { MonthlyBars } from "@/components/MonthlyBars";
+import { MonthlyReport } from "@/components/MonthlyReport";
 import { Verdict } from "@/components/Verdict";
 import { LogFill } from "@/components/LogFill";
 
@@ -22,6 +23,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
       {live && <CorrectBalance />}
       <DashboardTiles model={model} />
       <MonthlyBars data={seedMonthlySpend} />
+      <MonthlyReport model={model} />
       <Verdict scenario={model.scenario} />
       {live && <LogFill />}
     </AppShell>

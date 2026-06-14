@@ -30,6 +30,7 @@ export async function getDemoHeroModel(persona: Persona = "aisyah"): Promise<Her
     anchor: s.anchor ?? seedAnchor,
     fills: [...seedFills, ...s.fills],
     today,
+    drivingStyle: s.drivingStyle,
   });
 }
 

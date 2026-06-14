@@ -2,7 +2,7 @@
 // data. Pure composition of domain functions — usable on server (seeded Demo
 // Account) and client (the just-onboarded account). today is passed in.
 
-import type { Vehicle, QuotaConfig, Profile, Anchor, Fill } from "@/domain/types";
+import type { Vehicle, QuotaConfig, Profile, Anchor, Fill, DrivingStyle } from "@/domain/types";
 import type { VerdictScenario } from "@/domain/verdict-engine";
 import type { EfficiencyResult } from "@/domain/efficiency-analyzer";
 import { computeQuotaBalance } from "@/domain/quota-ledger";
@@ -19,6 +19,7 @@ export interface HeroModel {
   scenario: VerdictScenario;
   baselineL100: number;
   co2PerLitreKg: number;
+  drivingStyle: DrivingStyle;
   efficiency: EfficiencyResult | null;
 }
 
@@ -29,10 +30,12 @@ interface Input {
   anchor?: Anchor;
   fills: Fill[];
   today: Date;
+  drivingStyle?: DrivingStyle;
 }
 
 export function buildHeroModel(i: Input): HeroModel {
   const { vehicle, quotaConfig, profile, anchor, fills, today } = i;
+  const drivingStyle = i.drivingStyle ?? "normal";
 
   const balance = computeQuotaBalance({
     anchor,
@@ -76,6 +79,7 @@ export function buildHeroModel(i: Input): HeroModel {
           prices: quotaConfig.prices,
           co2PerLitreKg: quotaConfig.co2PerLitreKg,
           driverType: vehicle.driverType,
+          drivingStyle,
         })
       : null;
 
@@ -86,6 +90,7 @@ export function buildHeroModel(i: Input): HeroModel {
     scenario,
     baselineL100,
     co2PerLitreKg: quotaConfig.co2PerLitreKg,
+    drivingStyle,
     efficiency,
   };
 }

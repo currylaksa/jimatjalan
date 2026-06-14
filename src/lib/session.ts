@@ -3,7 +3,7 @@
 // The vehicle/config/profile stay seed (static). Reads work in server components;
 // writes only in server actions / route handlers.
 import { cookies } from "next/headers";
-import type { Fill, Anchor } from "@/domain/types";
+import type { Fill, Anchor, DrivingStyle } from "@/domain/types";
 
 const COOKIE = "jj_session";
 const MAX_FILLS = 12;
@@ -11,6 +11,7 @@ const MAX_FILLS = 12;
 export interface Session {
   fills: Fill[]; // extra fills logged via the UI (on top of the seed history)
   anchor?: Anchor; // re-anchor override
+  drivingStyle?: DrivingStyle; // self-reported (module 3)
 }
 
 export async function readSession(): Promise<Session> {
@@ -18,7 +19,7 @@ export async function readSession(): Promise<Session> {
   if (!raw) return { fills: [] };
   try {
     const s = JSON.parse(raw) as Session;
-    return { fills: Array.isArray(s.fills) ? s.fills : [], anchor: s.anchor };
+    return { fills: Array.isArray(s.fills) ? s.fills : [], anchor: s.anchor, drivingStyle: s.drivingStyle };
   } catch {
     return { fills: [] };
   }
