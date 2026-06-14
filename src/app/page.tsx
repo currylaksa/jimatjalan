@@ -1,8 +1,10 @@
 import { getDemoHeroModel, toPersona } from "@/lib/demo-model";
+import { seedMonthlySpend } from "@/data/seed";
 import { AppShell } from "@/components/AppShell";
 import { SubsidyWallet } from "@/components/SubsidyWallet";
 import { CorrectBalance } from "@/components/CorrectBalance";
-import { SpendForecast } from "@/components/SpendForecast";
+import { DashboardTiles } from "@/components/DashboardTiles";
+import { MonthlyBars } from "@/components/MonthlyBars";
 import { Verdict } from "@/components/Verdict";
 import { LogFill } from "@/components/LogFill";
 
@@ -18,8 +20,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
     <AppShell subsidyRinggit={model.balance.subsidyRinggit} persona={persona}>
       <SubsidyWallet balance={model.balance} quotaCap={model.quotaCap} />
       {live && <CorrectBalance />}
+      <DashboardTiles model={model} />
+      <MonthlyBars data={seedMonthlySpend} />
       <Verdict scenario={model.scenario} />
-      <SpendForecast scenario={model.scenario} />
       {live && <LogFill />}
     </AppShell>
   );

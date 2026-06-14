@@ -18,6 +18,7 @@ export interface HeroModel {
   quotaCap: number;
   scenario: VerdictScenario;
   baselineL100: number;
+  co2PerLitreKg: number;
   efficiency: EfficiencyResult | null;
 }
 
@@ -84,6 +85,7 @@ export function buildHeroModel(i: Input): HeroModel {
     quotaCap: quotaConfig.quotaCap,
     scenario,
     baselineL100,
+    co2PerLitreKg: quotaConfig.co2PerLitreKg,
     efficiency,
   };
 }

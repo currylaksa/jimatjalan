@@ -48,6 +48,12 @@ export const rahmanQuotaConfig: QuotaConfig = {
 };
 export const rahmanProfile: Profile = { selfReportKmPerDay: 415, tankLevelLitres: 8 };
 export const rahmanAnchor: Anchor = { quotaLitres: 600, at: "2026-06-13T07:00:00Z" };
+// Monthly spend history for the dashboard bar chart (RM, last 6 months).
+export const seedMonthlySpend: { m: string; rm: number }[] = [
+  { m: "Jan", rm: 238 }, { m: "Feb", rm: 215 }, { m: "Mar", rm: 268 },
+  { m: "Apr", rm: 292 }, { m: "May", rm: 255 }, { m: "Jun", rm: 284 },
+];
+
 // Price monitoring (challenge #1). HISTORY + current, never a forecast (ADR-0001).
 // Subsidised RON95 is fixed (BUDI95 quota price); the float grades move weekly.
 export const seedLastWeekPrices = { subsidised: 1.99, ron95Market: 4.01, ron97: 4.75, diesel: 4.97 };
