@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 const TABS = [
   { href: "/", label: "Wallet", icon: WalletIcon },
   { href: "/tank", label: "Tank", icon: GaugeIcon },
+  { href: "/prices", label: "Prices", icon: PriceIcon },
   { href: "/ask", label: "Ask", icon: ChatIcon },
   { href: "/setup", label: "Setup", icon: GearIcon },
 ] as const;
@@ -107,6 +108,14 @@ function GaugeIcon({ active }: { active: boolean }) {
       <path d="M12 14a6 6 0 0 1 6-6" opacity="0" />
       <path d="M4 18a8 8 0 1 1 16 0" />
       <path d="M12 18l4-4" />
+    </svg>
+  );
+}
+function PriceIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.4 : 2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 17l5-5 4 3 6-7" />
+      <path d="M16 8h4v4" />
     </svg>
   );
 }

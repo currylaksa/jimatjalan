@@ -48,6 +48,14 @@ export const rahmanQuotaConfig: QuotaConfig = {
 };
 export const rahmanProfile: Profile = { selfReportKmPerDay: 415, tankLevelLitres: 8 };
 export const rahmanAnchor: Anchor = { quotaLitres: 600, at: "2026-06-13T07:00:00Z" };
+// Price monitoring (challenge #1). HISTORY + current, never a forecast (ADR-0001).
+// Subsidised RON95 is fixed (BUDI95 quota price); the float grades move weekly.
+export const seedLastWeekPrices = { subsidised: 1.99, ron95Market: 4.01, ron97: 4.75, diesel: 4.97 };
+export const seedRon97Trend: { w: string; p: number }[] = [
+  { w: "W1", p: 4.62 }, { w: "W2", p: 4.66 }, { w: "W3", p: 4.78 }, { w: "W4", p: 4.74 },
+  { w: "W5", p: 4.66 }, { w: "W6", p: 4.55 }, { w: "W7", p: 4.79 }, { w: "W8", p: 4.85 },
+];
+
 export const rahmanFills: Fill[] = [
   { id: "rfill-1", vehicleId: "veh-r", litres: 40, ringgit: 79.6, grade: "RON95", odometerKm: 120000, at: "2026-06-06T07:00:00Z" },
   // 520 km gap on 38 L → 7.31 L/100km, ~12% over the 6.5 baseline.
