@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JimatJalan — Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600&family=Saira+Condensed:wght@600;700;800&family=Spline+Sans+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#eef1ec; --bg2:#fff; --card:#fff; --inset:#f1f4ef;
+    --edge:rgba(20,45,32,.1); --ink:#16201b; --dim:#4b594f;
+    --green:#12a150; --amber:#b9730a; --amber-fill:#ffb020; --red:#d92d2d;
+    --display:"Saira Condensed",system-ui,sans-serif;
+    --body:"Saira",system-ui,sans-serif;
+    --mono:"Spline Sans Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:radial-gradient(120% 70% at 50% -10%,var(--bg2),var(--bg) 60%) fixed,var(--bg);
+    color:var(--ink); font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    height:100vh; overflow-y:scroll; scroll-snap-type:y mandatory;
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.045;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  section{
+    min-height:100vh; scroll-snap-align:start;
+    display:flex; flex-direction:column; justify-content:center;
+    gap:1.1rem; padding:6vh 7vw; position:relative;
+  }
+  .kicker{font-family:var(--display);text-transform:uppercase;letter-spacing:.28em;
+    font-size:clamp(.7rem,1.4vw,.95rem);font-weight:700;color:var(--amber)}
+  h1{font-family:var(--display);font-weight:800;line-height:.98;letter-spacing:.01em;
+    font-size:clamp(2.4rem,7vw,5.6rem);max-width:18ch}
+  h1 .em{color:var(--amber)} h1 .gr{color:var(--green)} h1 .rd{color:var(--red)}
+  .narr{font-size:clamp(1.05rem,2vw,1.5rem);max-width:42ch;color:var(--dim);line-height:1.5}
+  .narr b{color:var(--ink);font-weight:600}
+  .transition{position:absolute;bottom:3.5vh;left:7vw;font-size:.85rem;color:var(--dim);opacity:.7;
+    font-family:var(--mono)}
+  .transition::before{content:"↓  "}
+
+  /* reveal */
+  .reveal>*{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+  .reveal.in>*{opacity:1;transform:none}
+  .reveal.in>*:nth-child(2){transition-delay:.08s}
+  .reveal.in>*:nth-child(3){transition-delay:.16s}
+  .reveal.in>*:nth-child(4){transition-delay:.24s}
+  .reveal.in>*:nth-child(5){transition-delay:.32s}
+  @media(prefers-reduced-motion:reduce){.reveal>*{opacity:1;transform:none}}
+
+  /* pump panels (match the product) */
+  .panel{background:var(--card);border:1px solid var(--edge);border-radius:18px;
+    box-shadow:0 1px 2px rgba(20,45,32,.04),0 22px 45px -32px rgba(20,45,32,.3);
+    padding:1.1rem 1.3rem;display:inline-block}
+  .readout{background:var(--inset);border:1px solid var(--edge);border-radius:12px;
+    box-shadow:inset 0 1px 3px rgba(20,45,32,.07);padding:.8rem 1.1rem}
+  .seg{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:.16em;font-size:.62rem;color:var(--dim)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:9px;background:currentColor;box-shadow:0 0 8px currentColor}
+  .big{font-size:clamp(2.4rem,6vw,4rem);font-weight:700;line-height:1}
+  .pill{display:inline-flex;gap:.5rem;align-items:center;border-radius:99px;padding:.35rem .8rem;
+    font-size:.85rem;font-weight:700;font-family:var(--mono)}
+
+  /* phone-sync cue */
+  .phone{display:inline-flex;gap:.6rem;align-items:center;width:max-content;
+    background:rgba(255,176,32,.14);border:1px solid var(--amber);color:var(--amber);
+    border-radius:99px;padding:.5rem .9rem;font-weight:700;font-size:clamp(.85rem,1.6vw,1.05rem)}
+  .phone svg{flex:none}
+
+  .row{display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:60rem}
+  @media(max-width:760px){.grid3{grid-template-columns:1fr}}
+
+  /* cold open */
+  .hero{display:grid;grid-template-columns:1.3fr .7fr;gap:3rem;align-items:center}
+  @media(max-width:820px){.hero{grid-template-columns:1fr}}
+  .qr{background:#fff;border:1px solid var(--edge);border-radius:20px;padding:1.1rem;
+    width:min(46vw,260px);box-shadow:0 22px 45px -28px rgba(20,45,32,.35)}
+  .qr img{width:100%;display:block}
+  .qr .cap{font-family:var(--mono);font-size:.8rem;color:var(--dim);text-align:center;margin-top:.6rem}
+
+  /* fixed UI */
+  .brand{position:fixed;top:18px;left:24px;z-index:40;font-family:var(--display);font-weight:800;
+    text-transform:uppercase;letter-spacing:.18em;font-size:.85rem}
+  .bar{position:fixed;top:0;left:0;height:3px;background:var(--amber-fill);z-index:50;width:0;transition:width .2s}
+  .dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:10px}
+  .dots a{width:9px;height:9px;border-radius:9px;border:1px solid var(--dim);opacity:.5;transition:.2s}
+  .dots a.on{background:var(--amber-fill);border-color:var(--amber-fill);opacity:1;transform:scale(1.25)}
+  .hint{position:fixed;bottom:14px;right:20px;z-index:40;font-family:var(--mono);font-size:.72rem;color:var(--dim);opacity:.65}
+
+  /* speaker notes */
+  #notes{position:fixed;left:0;right:0;bottom:0;z-index:70;background:#0c1311;color:#e9f1ec;
+    border-top:2px solid var(--amber-fill);padding:1rem 1.4rem;display:none;font-family:var(--body);font-size:1rem;line-height:1.45}
+  #notes.show{display:block}
+  #notes .nk{font-family:var(--display);text-transform:uppercase;letter-spacing:.18em;color:var(--amber-fill);font-size:.7rem;margin-bottom:.3rem}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="brand">JimatJalan</div>
+<nav class="dots" id="dots" aria-label="sections"></nav>
+<div class="hint">↑ ↓ / space to move · press <b>S</b> for speaker notes</div>
+
+<!-- 0 · COLD OPEN -->
+<section class="reveal" data-note="Open here. 'Before I say anything — pull out your phone, scan this. You're not watching a demo today, you're holding it.' Wait ~10s for them to scan. The whole pitch, they follow on their own phone.">
+  <div class="hero">
+    <div style="display:flex;flex-direction:column;gap:1.1rem">
+      <div class="kicker">JimatJalan · Smart Fuel</div>
+      <h1>Your government gave you money.<br><span class="rd">It's evaporating.</span></h1>
+      <p class="narr">Every RON95 driver in Malaysia now has a monthly BUDI95 subsidy quota. Most don't track it — and what they don't use, they lose on the 1st.</p>
+      <div class="phone" aria-label="phone cue">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Scan it. Follow along on your phone.
+      </div>
+    </div>
+    <div class="qr">
+      <img src="/qr.svg" alt="QR to jimatjalan.vercel.app" />
+      <div class="cap">jimatjalan.vercel.app</div>
+    </div>
+  </div>
+  <div class="transition">Whose money is it?</div>
+</section>
+
+<!-- 1 · THE PROBLEM -->
+<section class="reveal" data-note="Aisyah is the everydriver. Fuel revised periodically, quota resets monthly, behaviour data scattered. Land the 5 case-study pains fast: timing, consumption, emissions, fragmentation. Don't list — tell it as her week.">
+  <div class="kicker">Malaysia · 2026</div>
+  <h1>BUDI95 turned fuel into a <span class="em">monthly allowance</span> nobody tracks.</h1>
+  <p class="narr">Aisyah fills up when the tank's near empty — like everyone. No idea how much subsidy she has, when prices move, or what her driving costs. <b>The official app shows a balance. It never tells her what to do.</b></p>
+  <div class="panel">
+    <div class="lbl">BUDI95 · RON95 &nbsp; <span style="color:var(--red)">● almost gone</span></div>
+    <div class="seg big" style="color:var(--red);margin-top:.4rem">≈ RM25</div>
+    <div class="seg" style="color:var(--dim);font-size:.95rem">12 L left · resets in 17 days · no rollover</div>
+  </div>
+  <div class="transition">So we built the thing that just tells you.</div>
+</section>
+
+<!-- 2 · THE VERDICT -->
+<section class="reveal" data-note="The hero action. One tap. 'On your phone, tap Patut Isi? — Should I fill?' Pause, let them tap. This is the product's whole promise in one button.">
+  <div class="kicker">One tap</div>
+  <h1><span class="em">Patut Isi?</span><br>Should I fill?</h1>
+  <p class="narr">No fuel economics to learn. One tap turns your real quota, burn rate and tank into a single, opinionated call — with a hard ringgit number behind it.</p>
+  <div class="phone">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+    Tap “Patut Isi?” on your phone now.
+  </div>
+  <div class="transition">And the answer surprises people.</div>
+</section>
+
+<!-- 3 · THE TWIST -->
+<section class="reveal" data-note="The wow. The smart move is usually NOT to fill up. Money expires, fuel doesn't. Bridge just enough to the reset, buy the rest subsidised after. Say the number you all just saw on your phones.">
+  <div class="kicker">Counter-intuitive</div>
+  <h1>Sometimes the smartest move is:<br><span class="gr">don't fill up.</span></h1>
+  <p class="narr">Bridge just enough to reach the reset, then buy the rest subsidised. It's the <b>money</b> that expires, not the fuel — so timing the fill is real ringgit.</p>
+  <div class="row">
+    <div class="panel">
+      <div class="lbl">Verdict · subsidy</div>
+      <div class="seg big" style="color:var(--amber)">Bridge it</div>
+      <div class="seg" style="margin-top:.3rem">12 L now · RM23.88</div>
+    </div>
+    <div class="panel" style="align-self:center">
+      <span class="pill" style="background:rgba(18,161,80,.12);color:var(--green)">Save RM58.24 vs a full tank</span>
+    </div>
+  </div>
+  <div class="transition">But how do you trust a number from an AI?</div>
+</section>
+
+<!-- 4 · AI THAT CAN'T LIE -->
+<section class="reveal" data-note="Effective + Creative AI (20%). The design choice that wins trust: code computes & validates every number; the LLM only voices it. So it can't hallucinate a saving. Then the differentiator: Ask it anything. Tell them to ask 'drive to JB or take the bus?' on their phone.">
+  <div class="kicker">Effective + Creative AI</div>
+  <h1>Code owns the numbers.<br>The AI owns the <span class="em">voice.</span></h1>
+  <p class="narr">Every ringgit is computed and <b>validated in code</b> before it's shown — so the advisor literally can't lie. Then ask it anything about <b>your</b> real situation. A calculator can't do that.</p>
+  <div class="panel" style="max-width:38rem">
+    <div class="lbl">Ask JimatJalan</div>
+    <div style="margin-top:.5rem;font-size:1.05rem">“Drive to JB or take the bus?”</div>
+    <div style="margin-top:.5rem;color:var(--dim)">→ <span class="seg" style="color:var(--ink)">RM85.96</span> in fuel to JB. The bus is cheaper — unless you need the car.</div>
+  </div>
+  <div class="phone">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+    Open “Ask” and try it yourself.
+  </div>
+  <div class="transition">It's not just timing — it's how you drive.</div>
+</section>
+
+<!-- 5 · THREE PILLARS -->
+<section class="reveal" data-note="Show it's a complete product, not one trick. Wallet (money), Verdict (timing), Efficiency (how you drive) + an honest prediction. Carbon appears ONLY where driving cleaner actually saves — money first, carbon honest. That honesty survives 'how do you know?'.">
+  <div class="kicker">Three pillars · one app</div>
+  <h1>Money first.<br>Carbon <span class="gr">honest.</span></h1>
+  <p class="narr">Wallet, Verdict, and a per-tank Efficiency read that shows wasted ringgit and CO₂ together — plus an honest forecast of your spend. We predict <b>your spend</b>, never the price, because predicting the price would be lying.</p>
+  <div class="grid3">
+    <div class="panel"><div class="lbl">Efficiency Score</div><div class="seg big" style="color:var(--amber);font-size:2.4rem">83<span style="font-size:1rem;color:var(--dim)">/100</span></div><div class="seg" style="color:var(--dim);font-size:.85rem">≈ RM3.50 + 4.1kg CO₂ wasted</div></div>
+    <div class="panel"><div class="lbl">Predicted spend</div><div class="seg big" style="font-size:2.4rem">RM119</div><div class="seg" style="color:var(--dim);font-size:.85rem">next month, from your usage</div></div>
+    <div class="panel"><div class="lbl">Likely cause</div><div style="margin-top:.4rem;font-size:1rem;color:var(--ink)">tyre pressure · idling · AC load</div><div class="seg" style="color:var(--dim);font-size:.85rem">from a bounded menu, never made up</div></div>
+  </div>
+  <div class="transition">Now — who feels this pain the most?</div>
+</section>
+
+<!-- 6 · THE WEDGE -->
+<section class="reveal" data-note="Business: Market & Demand. The e-hailing/gig driver burns past the cap — every ringgit/litre compounds. For them a second wow: BANK the expiring subsidy even when the tank isn't low. This segment is our wedge → B2B fleet. Tell them to switch to Rahman on their phone.">
+  <div class="kicker">Business · the wedge</div>
+  <h1>The e-hailing driver <span class="em">lives and dies</span> by this.</h1>
+  <p class="narr">Rahman burns more than his cap — every litre's price compounds. JimatJalan tells him to <b>bank</b> subsidy that's about to expire, even with fuel in the tank. Land this high-pain segment, then sell the <b>fleet dashboard</b> to the companies behind them.</p>
+  <div class="row">
+    <div class="panel"><div class="lbl">Verdict · use-it-or-lose-it</div><div class="seg big" style="color:#1f8fd1">Bank it</div><div class="seg" style="margin-top:.3rem">34 L today · <span style="color:var(--green)">RM70.72 before it expires</span></div></div>
+  </div>
+  <div class="phone">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+    Switch to “Rahman · e-hailing” up top.
+  </div>
+  <div class="transition">So why can't Setel just copy us?</div>
+</section>
+
+<!-- 7 · WHY WE WIN -->
+<section class="reveal" data-note="Comparison with alternatives + moat. A calculator can't reason over your state. A generic wallet (Setel/TnG) doesn't model the quota cap or bridge-vs-bank. An LLM wrapper hallucinates. And our engine is config-driven — if BUDI95 changes (it changed twice in 2026), it's a config edit, not a rewrite. That's the defensibility answer.">
+  <div class="kicker">Why we win</div>
+  <h1>Everyone else <span class="rd">can't.</span></h1>
+  <div class="grid3" style="margin-top:.4rem">
+    <div class="panel"><div class="lbl" style="color:var(--red)">A spreadsheet</div><div style="margin-top:.4rem">can't reason over your live state.</div></div>
+    <div class="panel"><div class="lbl" style="color:var(--red)">A generic wallet</div><div style="margin-top:.4rem">shows a balance — doesn't model Quota Cap or bridge-vs-bank.</div></div>
+    <div class="panel"><div class="lbl" style="color:var(--red)">An LLM wrapper</div><div style="margin-top:.4rem">hallucinates numbers. Ours are code-validated.</div></div>
+  </div>
+  <p class="narr" style="margin-top:.4rem">And BUDI95 already changed twice in 2026. Our two-clock engine is <b>config, not premise</b> — a policy change is an edit, not a rewrite. We're a fuel-spend optimiser for <b>any</b> regime.</p>
+  <div class="transition">And it's live, right now, in your hand.</div>
+</section>
+
+<!-- 8 · THE CLOSE -->
+<section class="reveal" data-note="Close confident. Restate the tagline. Roadmap one breath: consumer wedge → fleet B2B → partnerships. Point back at their phones — they've been using the real thing the whole time. Hand to Q&A.">
+  <div class="kicker">The ask</div>
+  <h1>Know when to fill up.<br><span class="gr">Save more every week.</span></h1>
+  <p class="narr">You've been using the real, live product on your phone this whole time. Consumer wedge today → fleet B2B → station &amp; insurer partnerships. <b>JimatJalan</b> — the fuel financial-advisor in every Malaysian's pocket.</p>
+  <div class="hero" style="margin-top:.5rem">
+    <div class="phone" style="font-size:1.1rem">It's still in your hand. Keep tapping.</div>
+    <div class="qr" style="width:min(34vw,180px)"><img src="/qr.svg" alt="QR"/><div class="cap">jimatjalan.vercel.app</div></div>
+  </div>
+  <div class="transition" style="opacity:.5">Thank you — questions?</div>
+</section>
+
+<div id="notes"><div class="nk" id="nk">Speaker</div><div id="nt"></div></div>
+
+<script>
+  const secs=[...document.querySelectorAll('section')];
+  const dots=document.getElementById('dots');
+  secs.forEach((s,i)=>{const a=document.createElement('a');a.href='#';a.setAttribute('aria-label','section '+(i+1));
+    a.onclick=e=>{e.preventDefault();s.scrollIntoView({behavior:'smooth'})};dots.appendChild(a);});
+  const dotEls=[...dots.children];
+  const bar=document.getElementById('bar');
+  let cur=0;
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');
+      cur=secs.indexOf(e.target);
+      dotEls.forEach((d,i)=>d.classList.toggle('on',i===cur));
+      bar.style.width=((cur+1)/secs.length*100)+'%';
+      if(notesOn)renderNote();
+    }})},{threshold:.55});
+  secs.forEach(s=>io.observe(s));
+
+  function go(d){const n=Math.max(0,Math.min(secs.length-1,cur+d));secs[n].scrollIntoView({behavior:'smooth'});}
+  let notesOn=false;
+  const notes=document.getElementById('notes');
+  function renderNote(){document.getElementById('nt').textContent=secs[cur].dataset.note||'';
+    document.getElementById('nk').textContent='Speaker · '+(cur+1)+'/'+secs.length;}
+  addEventListener('keydown',e=>{
+    if(['ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(1);}
+    else if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(-1);}
+    else if(e.key==='s'||e.key==='S'){notesOn=!notesOn;notes.classList.toggle('show',notesOn);if(notesOn)renderNote();}
+  });
+</script>
+</body>
+</html>
