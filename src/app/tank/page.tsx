@@ -1,6 +1,7 @@
 import { getDemoHeroModel, getDemoFills, toPersona } from "@/lib/demo-model";
 import { AppShell } from "@/components/AppShell";
 import { EfficiencyRead } from "@/components/EfficiencyRead";
+import { EcoTips } from "@/components/EcoTips";
 import { FillHistory } from "@/components/FillHistory";
 import { LogFill } from "@/components/LogFill";
 
@@ -14,7 +15,10 @@ export default async function TankPage({ searchParams }: { searchParams: Promise
   return (
     <AppShell subsidyRinggit={model.balance.subsidyRinggit} persona={persona}>
       {model.efficiency ? (
-        <EfficiencyRead result={model.efficiency} baselineL100={model.baselineL100} />
+        <>
+          <EfficiencyRead result={model.efficiency} baselineL100={model.baselineL100} />
+          <EcoTips causes={model.efficiency.causeCandidates} />
+        </>
       ) : (
         <section className="pump-panel enter w-full max-w-md p-5">
           <h2 className="label text-xs text-[var(--ink-dim)]">This tank&apos;s efficiency</h2>
