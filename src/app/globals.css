@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ── Pump Readout theme · LIGHT ─────────────────────────────────────────────
+   Daytime fuel-station: warm paper bg, white bezels, dark ink, bold colored mono
+   counter digits, amber pump trigger, green→amber→red depletion. */
+:root {
+  --bg: #eef1ec;
+  --bg-2: #ffffff;
+  --card: #ffffff; /* pump bezel panel */
+  --panel-inset: #f1f4ef; /* recessed readout well */
+  --edge: rgba(20, 45, 32, 0.1);
+  --ink: #16201b;
+  --ink-dim: #4b594f; /* ~4.6:1 on the paper bg — clears WCAG AA for small text */
+  --led-green: #12a150;
+  --led-amber: #b9730a; /* dark enough to read as text on light */
+  --led-red: #d92d2d;
+  --accent: #ffb020; /* the pump trigger (button fill) */
+  --seg-glow: none;
+  /* --font-display / --font-body / --font-mono are injected by next/font on <html>
+     (self-hosted), with built-in system fallbacks. */
+}
+
+html,
+body {
+  background:
+    radial-gradient(120% 75% at 50% -10%, var(--bg-2) 0%, var(--bg) 60%) fixed,
+    var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+/* Film grain — subtle paper texture, darkens slightly via multiply. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* ── Components ───────────────────────────────────────────────────────────── */
+
+/* Pump bezel panel. */
+.pump-panel {
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 2px rgba(20, 45, 32, 0.04),
+    0 22px 45px -32px rgba(20, 45, 32, 0.3);
+}
+
+/* Recessed readout well behind big LED digits. */
+.readout {
+  background: var(--panel-inset);
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 3px rgba(20, 45, 32, 0.07);
+}
+
+/* LED counter digits. `color` set by caller. */
+.seg {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  text-shadow: var(--seg-glow);
+}
+
+.label {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+/* Pulsing status LED dot. */
+.led-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: ledPulse 2.4s ease-in-out infinite;
+}
+
+/* Amber pump-trigger button. */
+.pump-btn {
+  background: linear-gradient(180deg, #ffc24d, var(--accent));
+  color: #2a1d05;
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(160, 110, 10, 0.25), 0 12px 26px -14px rgba(255, 176, 32, 0.85);
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+.pump-btn:active {
+  transform: scale(0.98);
+}
+
+/* Depletion bar fill animates from empty on load. */
+.bar-fill {
+  transform-origin: left center;
+  animation: barFill 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered entrance — one orchestrated page load. */
+.enter {
+  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.enter:nth-child(2) { animation-delay: 0.06s; }
+.enter:nth-child(3) { animation-delay: 0.12s; }
+.enter:nth-child(4) { animation-delay: 0.18s; }
+.enter:nth-child(5) { animation-delay: 0.24s; }
+.enter:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes ledPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes barFill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .led-dot, .bar-fill, .enter { animation: none; }
+}
+
+input::placeholder {
+  color: var(--ink-dim);
+}
+
+/* Visible keyboard focus on every interactive control (accessibility). Un-layered,
+   so it overrides Tailwind's `outline-none` on inputs. */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ── App shell ───────────────────────────────────────────────────────────── */
+.app-bar {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--edge);
+}
+.app-nav {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+@media (min-width: 480px) {
+  .app-frame {
+    border-left: 1px solid var(--edge);
+    border-right: 1px solid var(--edge);
+    box-shadow: 0 0 80px -40px rgba(20, 45, 32, 0.4);
+  }
+}

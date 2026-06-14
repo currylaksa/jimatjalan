@@ -1,0 +1,26 @@
+import { getDemoHeroModel, toPersona } from "@/lib/demo-model";
+import { AppShell } from "@/components/AppShell";
+import { SubsidyWallet } from "@/components/SubsidyWallet";
+import { CorrectBalance } from "@/components/CorrectBalance";
+import { SpendForecast } from "@/components/SpendForecast";
+import { Verdict } from "@/components/Verdict";
+import { LogFill } from "@/components/LogFill";
+
+// Reads the mutable in-memory store; must reflect logged fills / re-anchors.
+export const dynamic = "force-dynamic";
+
+export default async function Home({ searchParams }: { searchParams: Promise<{ p?: string }> }) {
+  const persona = toPersona((await searchParams).p);
+  const model = await getDemoHeroModel(persona);
+  const live = persona === "aisyah"; // Rahman is a read-only showcase
+
+  return (
+    <AppShell subsidyRinggit={model.balance.subsidyRinggit} persona={persona}>
+      <SubsidyWallet balance={model.balance} quotaCap={model.quotaCap} />
+      {live && <CorrectBalance />}
+      <Verdict scenario={model.scenario} />
+      <SpendForecast scenario={model.scenario} />
+      {live && <LogFill />}
+    </AppShell>
+  );
+}

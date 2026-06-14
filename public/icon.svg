@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="JimatJalan">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#15402f"/>
+      <stop offset="1" stop-color="#0c2a1e"/>
+    </linearGradient>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffce5c"/>
+      <stop offset="1" stop-color="#ffb020"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- fuel drop (amber subsidy) -->
+  <path d="M256 104 C256 104 358 232 358 304 a102 102 0 1 1 -204 0 C154 232 256 104 256 104 Z" fill="url(#drop)"/>
+  <!-- green ringgit tick inside the drop -->
+  <path d="M214 312 l28 30 l58 -66" fill="none" stroke="#12a150" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
