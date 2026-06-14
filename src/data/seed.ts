@@ -57,9 +57,18 @@ export const seedMonthlySpend: { m: string; rm: number }[] = [
 // Price monitoring (challenge #1). HISTORY + current, never a forecast (ADR-0001).
 // Subsidised RON95 is fixed (BUDI95 quota price); the float grades move weekly.
 export const seedLastWeekPrices = { subsidised: 1.99, ron95Market: 4.01, ron97: 4.75, diesel: 4.97 };
-export const seedRon97Trend: { w: string; p: number }[] = [
+export const seedRon97Trend: { w: string; p: number }[] = [ // 1M view (weekly)
   { w: "W1", p: 4.62 }, { w: "W2", p: 4.66 }, { w: "W3", p: 4.78 }, { w: "W4", p: 4.74 },
   { w: "W5", p: 4.66 }, { w: "W6", p: 4.55 }, { w: "W7", p: 4.79 }, { w: "W8", p: 4.85 },
+];
+export const seedRon97Trend7d: { w: string; p: number }[] = [
+  { w: "Mon", p: 4.86 }, { w: "Tue", p: 4.85 }, { w: "Wed", p: 4.81 }, { w: "Thu", p: 4.81 },
+  { w: "Fri", p: 4.83 }, { w: "Sat", p: 4.85 }, { w: "Sun", p: 4.85 },
+];
+export const seedRon97Trend1y: { w: string; p: number }[] = [
+  { w: "Jul", p: 4.38 }, { w: "Aug", p: 4.45 }, { w: "Sep", p: 4.52 }, { w: "Oct", p: 4.49 },
+  { w: "Nov", p: 4.6 }, { w: "Dec", p: 4.71 }, { w: "Jan", p: 4.66 }, { w: "Feb", p: 4.7 },
+  { w: "Mar", p: 4.78 }, { w: "Apr", p: 4.74 }, { w: "May", p: 4.66 }, { w: "Jun", p: 4.85 },
 ];
 
 export const rahmanFills: Fill[] = [
